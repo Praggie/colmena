@@ -10,6 +10,27 @@ import * as app from './app.actions'
 @Injectable()
 export class AppEffects {
 
+
+
+
+  @Effect({ dispatch: false })
+  loadModule$ = this.actions$
+    .ofType('APP_LOAD_MODULE')
+    .do(action => {
+      const { moduleConfig } = action.payload
+
+      moduleConfig.topLinks.forEach(payload => this.store.dispatch({ type: 'LAYOUT_HEADER_NAV', payload }))
+      moduleConfig.sidebarLinks.forEach(payload => this.store.dispatch({ type: 'LAYOUT_SIDEBAR_NAV', payload }))
+
+      if (moduleConfig.dashboardLinks.content) {
+        moduleConfig.dashboardLinks.content.forEach(payload => this.store.dispatch({ type: 'APP_CONTENT_DASHBOARD', payload }))
+      }
+      if (moduleConfig.dashboardLinks.system) {
+        moduleConfig.dashboardLinks.system.forEach(payload => this.store.dispatch({ type: 'APP_SYSTEM_DASHBOARD', payload }))
+      }
+    })
+
+
   @Effect({ dispatch: false })
   domainsAdd$ = this.actions$
     .ofType('APP_DOMAIN_ADD')
@@ -26,6 +47,11 @@ export class AppEffects {
     })
 
   @Effect({ dispatch: false })
+  removeToken$ = this.actions$
+    .ofType('AUTH_REMOVE_TOKEN')
+    .do(() => window.localStorage.removeItem('token'))
+
+  @Effect({ dispatch: false })
   redirectDashboard: Observable<Action> = this.actions$
     .ofType(app.ActionTypes.APP_REDIRECT_DASHBOARD)
     .do(() => this.router.navigate(['/', 'dashboard']))
@@ -33,7 +59,10 @@ export class AppEffects {
   @Effect({ dispatch: false })
   redirectLogin: Observable<Action> = this.actions$
     .ofType(app.ActionTypes.APP_REDIRECT_LOGIN)
-    .do(() => this.router.navigate(['/', 'login']))
+    .do(() => {
+      this.store.dispatch({ type: 'AUTH_REMOVE_TOKEN' })
+      this.router.navigate(['/', 'login'])
+    })
 
   @Effect({ dispatch: false })
   redirectRouter: Observable<Action> = this.actions$

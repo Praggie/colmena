@@ -5,7 +5,9 @@
   },
   "watch": [
     "common/",
-    "server/"
+    "lib/",
+    "server/",
+    "../../modules/"
   ],
   "env": {
     "NODE_ENV": "development"

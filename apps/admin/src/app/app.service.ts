@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Store } from '@ngrx/store'
 
-import { DomainApi, SettingApi } from '@colmena/admin-lb-sdk'
+import { SystemDomainApi, SystemSettingApi } from '@colmena/admin-lb-sdk'
 
 import { LogService } from './log.service'
 
@@ -31,15 +31,18 @@ export class AppService {
   }
 
   constructor(
-    private domainApi: DomainApi,
+    private domainApi: SystemDomainApi,
     private log: LogService,
-    private settingApi: SettingApi,
+    private settingApi: SystemSettingApi,
     private store: Store<any>
   ) {
     if (window.localStorage.getItem('domain')) {
       this.store.dispatch({ type: 'APP_DOMAIN_SET', payload: JSON.parse(window.localStorage.getItem('domain'))})
+    } else {
+      this.store.dispatch({ type: 'APP_DOMAIN_SET_DEFAULT' })
     }
     if (window.localStorage.getItem('token')) {
+      this.store.dispatch({ type: 'AUTH_CHECK_TOKEN' })
       this.store.dispatch({ type: 'AUTH_SET_TOKEN', payload: JSON.parse(window.localStorage.getItem('token'))})
     }
     if (window.localStorage.getItem('roles')) {

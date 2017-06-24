@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 
-import { FormlyModule, FormlyBootstrapModule } from 'ng-formly'
 import { FileUploadModule } from 'ng2-file-upload'
 import { ToastyService, ToastyModule } from 'ng2-toasty'
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
+
+import { UiFormlyModule } from './modules/formly/formly.module'
 
 import { UiButtonsModule } from './components/buttons/buttons.module'
 import { UiCardModule } from './components/card/card.module'
@@ -17,11 +19,14 @@ import { UiDashboardIconComponent } from './components/dashboard-icon/dashboard-
 import { UiFormComponent } from './components/form/ui-form.component'
 import { UiLogoComponent } from './components/logo/logo.component'
 import { UiMessageComponent } from './components/message/message.component'
+import { UiPageComponent } from './components/page/page.component'
 import { UiTableComponent } from './components/table/ui-table.component'
+import { UiTabsComponent } from './components/tabs/tabs.component'
+import { UiTabsVerticalComponent } from './components/tabs/tabs-vertical.component'
+import { UiTemplatesComponent } from './components/templates/templates.component'
 import { UiUploaderComponent } from './components/uploader/ui-uploader.component'
 
 import { UiService } from './services/ui.service'
-import { UiTemplatesComponent } from './components/templates/templates.component'
 import { FormService } from './services/form.service'
 
 /**
@@ -46,7 +51,10 @@ const components = [
   UiFormComponent,
   UiLogoComponent,
   UiMessageComponent,
+  UiPageComponent,
   UiTableComponent,
+  UiTabsComponent,
+  UiTabsVerticalComponent,
   UiTemplatesComponent,
   UiUploaderComponent,
 ]
@@ -75,8 +83,8 @@ const declarations = []
     ReactiveFormsModule,
     RouterModule,
     ToastyModule,
-    FormlyModule.forRoot(),
-    FormlyBootstrapModule,
+    UiFormlyModule,
+    BsDropdownModule.forRoot(),
     ...modules,
   ],
   declarations: [
@@ -87,7 +95,8 @@ const declarations = []
     ...providers
   ],
   exports: [
-    FormlyModule,
+    CommonModule,
+    BsDropdownModule,
     ...declarations,
     ...modules,
     ...components,

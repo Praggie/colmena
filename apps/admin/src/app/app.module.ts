@@ -1,7 +1,7 @@
 // Angular Modules
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
-import { LocationStrategy, HashLocationStrategy } from '@angular/common'
+
 import { FormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
 import { RouterModule } from '@angular/router'
@@ -9,26 +9,23 @@ import { RouterModule } from '@angular/router'
 // Third party Modules
 import { LoopBackConfig, SDKBrowserModule } from '@colmena/admin-lb-sdk'
 
-import { ColmenaAuthModule } from '@colmena/admin-auth'
+// Local Modules
 import { ColmenaLayoutModule } from '@colmena/admin-layout'
 import { ColmenaUiModule } from '@colmena/admin-ui'
 
-// Local Modules
-import { ContentModule } from '@colmena/module-admin-content'
-import { CoreModule } from '@colmena/module-admin-core'
-import { DashboardModule } from '@colmena/module-admin-dashboard'
-import { DevModule } from '@colmena/module-admin-dev'
-import { SystemModule } from '@colmena/module-admin-system'
-
-
 // Local Components/Routes/Services
-import { AppComponent } from './app.component'
-import { appRoutes } from './app.routes'
+import { AppConfigModule } from './app-config.module'
+import { AppRoutingModule } from './app-routing.module'
+import { AppStoreModule } from './app.store'
+
+import { ExtensionsModule } from './extensions.module'
+
 import { AppService } from './app.service'
 import { LogService } from './log.service'
-import { AppStoreModule } from './app.store'
-import { DomainResolver } from './app.resolvers'
-import { HasContentAccess, HasSystemAccess, UserLoggedIn } from './app.guards'
+
+import { AppComponent } from './app.component'
+import { NotFoundComponent } from './components/not-found/not-found.component'
+import { RouterComponent } from './components/router/router.component'
 
 @NgModule({
   imports: [
@@ -38,29 +35,23 @@ import { HasContentAccess, HasSystemAccess, UserLoggedIn } from './app.guards'
     RouterModule,
 
     SDKBrowserModule.forRoot(),
-    ColmenaAuthModule,
     ColmenaLayoutModule,
     ColmenaUiModule,
 
-    ContentModule,
-    CoreModule,
-    DashboardModule,
-    DevModule,
-    SystemModule,
-
     AppStoreModule,
-    appRoutes,
+    AppRoutingModule,
+    AppConfigModule,
+
+    ExtensionsModule,
   ],
   providers: [
     AppService,
     LogService,
-    DomainResolver,
-    HasContentAccess,
-    HasSystemAccess,
-    UserLoggedIn,
   ],
   declarations: [
     AppComponent,
+    NotFoundComponent,
+    RouterComponent,
   ],
   bootstrap: [
     AppComponent,

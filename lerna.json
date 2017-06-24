@@ -2,8 +2,9 @@
   "lerna": "2.0.0-rc.5",
   "packages": [
     "apps/*",
-    "modules/*",
+    "extensions/**/*",
+    "modules/**/*",
     "packages/*"
   ],
-  "version": "0.0.0"
+  "version": "0.1.0"
 }
