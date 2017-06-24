@@ -3,18 +3,16 @@ import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
 import { RouterModule } from '@angular/router'
-
+import { Store } from '@ngrx/store'
 import { ColmenaUiModule } from '@colmena/admin-ui'
 
-import { Store } from '@ngrx/store'
+import { SystemDomainsModule } from './domains/domains.module'
+import { SystemSettingsModule } from './settings/settings.module'
+import { SystemUsersModule } from './users/users.module'
 
 import { SystemDashboardComponent } from './system.component'
-import { DomainsComponent } from './domains/domains.component'
-import { SettingsComponent } from './settings/settings.component'
-import { UsersComponent } from './users/users.component'
-import { DomainsService } from './domains/domains.service'
-import { SettingsService } from './settings/settings.service'
-import { UsersService } from './users/users.service'
+
+import { SystemUserResolver } from './users/users.resolvers'
 
 @NgModule({
   imports: [
@@ -22,20 +20,17 @@ import { UsersService } from './users/users.service'
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    RouterModule,
-
     ColmenaUiModule,
+    SystemDomainsModule,
+    SystemSettingsModule,
+    SystemUsersModule,
+    RouterModule,
   ],
   declarations: [
-    DomainsComponent,
-    SettingsComponent,
-    UsersComponent,
     SystemDashboardComponent,
   ],
   providers: [
-    DomainsService,
-    SettingsService,
-    UsersService,
+    SystemUserResolver,
   ],
   exports: [
     SystemDashboardComponent,
@@ -48,13 +43,13 @@ export class SystemModule {
   ) {
     this.store.dispatch({ type: 'LAYOUT_SIDEBAR_NAV', payload: { weight: 100, type: 'title', label: 'System' } })
 
-    this.dispatchLinks({ weight: 110, label: 'Domains', icon: 'icon-globe', link: [ '/', 'system', 'domains' ] })
-    this.dispatchLinks({ weight: 120, label: 'Settings', icon: 'icon-settings', link: [ '/', 'system', 'settings' ] })
-    this.dispatchLinks({ weight: 130, label: 'Users', icon: 'icon-people', link: [ '/', 'system', 'users' ] })
+    this.dispatchLinks({ weight: 110, label: 'Domains', icon: 'icon-globe', link: ['/', 'system', 'domains'] })
+    this.dispatchLinks({ weight: 120, label: 'Settings', icon: 'icon-settings', link: ['/', 'system', 'settings'] })
+    this.dispatchLinks({ weight: 130, label: 'Users', icon: 'icon-people', link: ['/', 'system', 'users'] })
 
-    this.dispatchIcons({ count: '∞', label: 'Domains', type: 'info', icon: 'icon-globe', link: [ '/', 'system', 'domains' ] })
-    this.dispatchIcons({ count: '∞', label: 'Settings', type: 'success', icon: 'icon-settings', link: [ '/', 'system', 'settings' ] })
-    this.dispatchIcons({ count: '∞', label: 'Users', type: 'warning', icon: 'icon-people', link: [ '/', 'system', 'users' ] })
+    this.dispatchIcons({ count: '∞', label: 'Domains', type: 'info', icon: 'icon-globe', link: ['/', 'system', 'domains'] })
+    this.dispatchIcons({ count: '∞', label: 'Settings', type: 'success', icon: 'icon-settings', link: ['/', 'system', 'settings'] })
+    this.dispatchIcons({ count: '∞', label: 'Users', type: 'warning', icon: 'icon-people', link: ['/', 'system', 'users'] })
   }
 
   dispatchLinks(links) {

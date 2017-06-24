@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 
 import { UiDataGridService, FormService } from '@colmena/admin-ui'
 
-import { DomainApi } from '@colmena/admin-lb-sdk'
+import { SystemDomainApi } from '@colmena/admin-lb-sdk'
 
 @Injectable()
 export class FilesService extends UiDataGridService {
@@ -24,7 +24,7 @@ export class FilesService extends UiDataGridService {
   ]
 
   constructor(
-    public domainApi: DomainApi,
+    public domainApi: SystemDomainApi,
     public formService: FormService,
   ) {
     super()
@@ -42,17 +42,17 @@ export class FilesService extends UiDataGridService {
   getUploadUrl() {
     const apiConfig = JSON.parse(window.localStorage.getItem('apiConfig'))
 
-    return [ apiConfig.baseUrl, apiConfig.version, 'Containers', this.domain.id, 'upload' ].join('/')
+    return [ apiConfig.baseUrl, apiConfig.version, 'StorageContainers', this.domain.id, 'upload' ].join('/')
   }
 
   getItems() {
-    return this.domainApi.getFiles(this.domain.id, this.getFilters({
+    return this.domainApi.getStorageFiles(this.domain.id, this.getFilters({
       include: ['events', 'pages', 'posts', 'products'],
     }))
   }
 
   getItemCount() {
-    return this.domainApi.countFiles(this.domain.id, this.getWhereFilters())
+    return this.domainApi.countStorageFiles(this.domain.id, this.getWhereFilters())
   }
 
   importFile(item, successCb, errorCb): void {
@@ -61,7 +61,7 @@ export class FilesService extends UiDataGridService {
 
   deleteItem(itemId, successCb, errorCb) {
     this.domainApi
-      .destroyByIdFiles(this.domain.id, itemId)
+      .destroyByIdStorageFiles(this.domain.id, itemId)
       .subscribe(
         (success) => successCb(success),
         (error) => errorCb(error),
